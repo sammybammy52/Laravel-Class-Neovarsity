@@ -58,7 +58,14 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $blog = Blog::find($id);
+        $blog = Blog::findOrFail($id);
+
+        if (!$blog) {
+            return response([
+                'status' => 'fail',
+                'message' => 'Blog not found',
+            ], 404);
+        }
 
         return response([
             'status' => 'success',
